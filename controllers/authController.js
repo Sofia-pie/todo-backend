@@ -22,7 +22,6 @@ const loginUser = async (req, res, next) => {
     (await bcryptjs.compare(String(req.body.password), String(user.password)))
   ) {
     const payload = {
-      email: user.email,
       userId: user._id,
     };
     const jwtToken = jwt.sign(payload, token);

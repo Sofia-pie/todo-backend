@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const { authRouter } = require('./routes/authRouter');
 const { taskRouter } = require('./routes/taskRouter');
-const listRouter = require('./routes/listRouter');
+const { listRouter } = require('./routes/listRouter');
 
 app.use('/auth', authRouter);
 app.use('/task', taskRouter);

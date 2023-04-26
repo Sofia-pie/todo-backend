@@ -1,11 +1,26 @@
 const { Task } = require('../models/Task');
 
+// get all user's tasks
 const getAllTasks = async (req, res) => {
   try {
-    const tasks = await Task.find({ user_id: req.params.user_id });
+    const tasks = await Task.find({ user_id: req.user._id });
     res.status(200).json({ tasks });
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+};
+
+// Get all tasks for a specific list
+const getTasks = async (req, res) => {
+  try {
+    const tasks = await Task.find({
+      list_id: req.params.list_id,
+      user_id: req.user._id,
+    });
+    res.json(tasks);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
   }
 };
 
@@ -63,6 +78,7 @@ const deleteTask = async (req, res) => {
 
 module.exports = {
   getAllTasks,
+  getTasks,
   createTask,
   getTaskById,
   updateTask,

@@ -16,7 +16,7 @@ const getListById = async (req, res) => {
     const list = await List.findOne({
       _id: req.params.id,
       user_id: req.user._id,
-    });
+    }).populate('tasks');
 
     if (!list) {
       return res.status(404).json({ msg: 'List not found' });

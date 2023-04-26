@@ -1,3 +1,4 @@
+const List = require('../models/List');
 const { Task } = require('../models/Task');
 
 // get all user's tasks
@@ -25,9 +26,15 @@ const getTasks = async (req, res) => {
 };
 
 const createTask = async (req, res) => {
+  const list = await List.findById(req.body.list_id);
+  if (!list) {
+    return res.status(400).json({ message: 'List does not exist' });
+  }
   try {
     const task = new Task({ ...req.body, user_id: req.params.user_id });
     await task.save();
+    list.tasks.push(task._id);
+    await list.save();
     res.status(201).json({ task });
   } catch (error) {
     res.status(400).json({ error: error.message });

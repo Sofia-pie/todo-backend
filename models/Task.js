@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const taskSchema = new Schema({
-  user_id: { type: mongoose.SchemaTypes.ObjectId, ref: 'User' },
+  user_id: { type: Schema.Types.ObjectId, ref: 'User' },
   title: {
     type: String,
     required: true,
@@ -14,9 +14,7 @@ const taskSchema = new Schema({
   priority: {
     type: Number,
   },
-  tags: {
-    type: [String],
-  },
+  list_id: { type: Schema.Types.ObjectId, ref: 'List' },
 });
 
 const Task = mongoose.model('Task', taskSchema);

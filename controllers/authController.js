@@ -22,7 +22,7 @@ const loginUser = async (req, res, next) => {
     (await bcryptjs.compare(String(req.body.password), String(user.password)))
   ) {
     const payload = {
-      userId: user._id,
+      user_id: user._id,
     };
     const jwtToken = jwt.sign(payload, token);
     return res.json({ jwt_token: jwtToken, _id: user._id });
@@ -35,12 +35,11 @@ module.exports = {
   loginUser,
 };
 
-const saveUser = async ({ email, password, name, phone }) => {
+const saveUser = async ({ email, password, name }) => {
   const user = new User({
     name,
     email,
     password: await bcryptjs.hash(password, 10),
-    phone,
   });
 
   return await user.save();

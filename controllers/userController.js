@@ -1,20 +1,18 @@
-const User = require('../models/Useer');
+// getUserById = (req, res, next) => {
+//   User.findById(req.params.id).exec((err, user) => {
+//     if (err || !user) {
+//       return res.status(400).json({
+//         error: 'User not found',
+//       });
+//     }
+//     req.profile = user;
+//   });
+// };
 
-exports.getUserById = (req, res, next) => {
-  User.findById(req.params.id).exec((err, user) => {
-    if (err || !user) {
-      return res.status(400).json({
-        error: 'User not found',
-      });
-    }
-    req.profile = user;
-    next();
-  });
-};
+const { User } = require('../models/User');
 
 getUserInfo = async (req, res) => {
   try {
-    console.log(req.params.id);
     const user = await User.findById(req.params.id);
     res.status(200).json({
       _id: user._id,
@@ -22,7 +20,7 @@ getUserInfo = async (req, res) => {
       email: user.email,
     });
   } catch (err) {
-    next(err);
+    res.status(500).json({ error: err.message });
   }
 };
 
@@ -40,4 +38,8 @@ deleteUser = (req, res) => {
       message: 'User deleted successfully',
     });
   });
+};
+
+module.exports = {
+  getUserInfo,
 };

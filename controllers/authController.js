@@ -7,12 +7,24 @@ const token = process.env.TOKEN_KEY;
 const registerUser = async (req, res, next) => {
   const { email, password, name } = req.body;
 
-  await saveUser({ email, password, name }).catch((err) => {
-    next(err);
+  const existingUser = await User.findOne({ email });
+  // if (existingUser) {
+  //   return res
+  //     .status(400)
+  //     .json({ message: 'User with this email already exists' });
+  // }
+  const hashedPassword = await bcryptjs.hash(password, 10);
+  const user = new User({
+    name,
+    email,
+    password: hashedPassword,
   });
-  return await res.status(201).json({
-    message: 'Profile created successfully',
-  });
+  await user.save();
+  const payload = {
+    user_id: user._id,
+  };
+  const jwtToken = jwt.sign(payload, token);
+  return res.json({ jwt_token: jwtToken, _id: user._id });
 };
 
 const loginUser = async (req, res, next) => {
@@ -33,14 +45,4 @@ const loginUser = async (req, res, next) => {
 module.exports = {
   registerUser,
   loginUser,
-};
-
-const saveUser = async ({ email, password, name }) => {
-  const user = new User({
-    name,
-    email,
-    password: await bcryptjs.hash(password, 10),
-  });
-
-  return await user.save();
 };

@@ -19,6 +19,7 @@ const authMiddleware = (req, res, next) => {
   }
   try {
     const decoded = jwt.verify(token, config.TOKEN_KEY);
+
     req.user = {
       _id: decoded.user_id,
     };

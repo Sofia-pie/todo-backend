@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const app = express();
 require('dotenv').config();
 
@@ -21,10 +22,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const { authRouter } = require('./routes/authRouter');
 const { taskRouter } = require('./routes/taskRouter');
 const { listRouter } = require('./routes/listRouter');
-
+const { userRouter } = require('./routes/userRouter');
+app.use(cors());
 app.use('/auth', authRouter);
-app.use('/task', taskRouter);
+app.use('/tasks', taskRouter);
 app.use('/lists', listRouter);
+app.use('/user', userRouter);
 
 const port = process.env.PORT || 8080;
 

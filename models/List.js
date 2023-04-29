@@ -9,7 +9,6 @@ const listSchema = new Schema({
   },
   description: {
     type: String,
-    required: true,
   },
   user_id: {
     type: Schema.Types.ObjectId,

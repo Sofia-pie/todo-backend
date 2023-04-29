@@ -12,7 +12,7 @@ const {
 const { authMiddleware } = require('../middleware/authMiddleware');
 
 router.use(authMiddleware);
-router.get('/:list_id', getTasks);
+router.get('/:list_id/tasks', getTasks);
 router.get('/', getAllTasks);
 router.post('/', createTask);
 router.get('/:id', getTaskById);

@@ -1,5 +1,5 @@
-const List = require('../models/List');
-const Task = require('../models/Task');
+const { List } = require('../models/List');
+const { Task } = require('../models/Task');
 
 const getLists = async (req, res) => {
   try {
@@ -59,7 +59,10 @@ const deleteList = async (req, res) => {
     }
 
     await Task.deleteMany({ list_id: list._id });
-    await list.remove();
+    await List.findOneAndDelete({
+      _id: req.params.id,
+      user_id: req.user._id,
+    });
 
     res.json({ msg: 'List and tasks deleted' });
   } catch (err) {

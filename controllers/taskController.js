@@ -1,4 +1,4 @@
-const List = require('../models/List');
+const { List } = require('../models/List');
 const { Task } = require('../models/Task');
 
 // get all user's tasks
@@ -35,7 +35,7 @@ const createTask = async (req, res) => {
     await task.save();
     list.tasks.push(task._id);
     await list.save();
-    res.status(201).json({ task });
+    res.status(201).json(task);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

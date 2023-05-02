@@ -15,6 +15,7 @@ const taskSchema = new Schema({
     type: Number,
   },
   list_id: { type: Schema.Types.ObjectId, ref: 'List' },
+  important: { type: Boolean, default: false },
 });
 
 const Task = mongoose.model('Task', taskSchema);
